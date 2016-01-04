@@ -26,10 +26,10 @@ class Container01
          return *this;
       }
   
-  Container01(const Container01&& other ) : m_S("") {
+  Container01(Container01&& other ) : m_S("") {
          std::cout << "--- move constructor ----\n";
          m_S = other.m_S;
-         m_S = "";
+         other.m_S = "";
       }
       
    Container01& operator=(Container01&& other) {
@@ -37,7 +37,7 @@ class Container01
   
       if (this != &other) {     
          m_S = other.m_S;
-         m_S = "";
+         other.m_S = "";
       }
       return *this;
    }
