@@ -7,7 +7,7 @@
 class Container01
 {
    public:
-       Container01(std::string s) : m_S(s) {}
+        explicit Container01(std::string s) : m_S(s) { std::cout << "+++ constructor +++\n";}
       virtual ~Container01() {}
       
       
@@ -56,10 +56,25 @@ ConstContainer01Ptr c()
    return boost::make_shared<Container01>("ttt");
 }
 
+Container01    c0()
+{
+   Container01  c("X");
+   return c;
+}
+
 int main()
 {
    Container01 c1("test1");
    
+   Container01 c2(c1);
+   Container01 c3(std::move(c1));
+   
+   Container01 c4 = c0();
+   
+  // Container01 c5 = std::string("tttt");
+   
+   
+   #if 0
    Container01 c2 = c1;
    
    Container01 c3(c2);
@@ -71,6 +86,11 @@ int main()
    ConstContainer01Ptr ptr2 = boost::make_shared<Container01>(*ptr);
    
    ptr2 = boost::make_shared<Container01>(*c());
+   
+   //Container01 c4(std::move(c0()));
+   
+   Container01 c5(c0());
+   #endif
    
    return 0;
 }
