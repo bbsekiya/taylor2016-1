@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 
 class MyClass
@@ -19,3 +21,5 @@ class MyClass
       int   m_N1;
       int   m_N2;
 };
+typedef boost::shared_ptr<MyClass>MyClassPtr;
+typedef boost::shared_ptr<const MyClass>ConstMyClassPtr;
