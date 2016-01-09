@@ -1,11 +1,12 @@
 #include <iostream>
+#include "myclass.h"
 
 MyClass::MyClass(int n1, int n2) : m_N1(n1), m_N2(n2)
 {
    std::cout << "...constructor \n";
 }
 
-~MyClass::MyClass()
+MyClass::~MyClass()
 {
 }
 
