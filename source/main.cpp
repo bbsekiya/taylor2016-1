@@ -11,6 +11,11 @@ MyClass  test1()
    return c;
 }
 
+MyClassPtr  test2()
+{
+   MyClassPtr p = boost::make_shared<MyClass>(100,1000);
+   return p;
+}
 
 
 int main()
@@ -20,6 +25,8 @@ int main()
    MyClass     m3(std::move(test1()));
    
    MyClass&& n1 = test1();
+   
+   MyClass  m4(std::move(*test2()));
    
    
    return 0;
