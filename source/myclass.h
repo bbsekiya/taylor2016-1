@@ -17,6 +17,13 @@ class MyClass
       MyClass(MyClass&& other) ;
       
       MyClass& operator=(MyClass&& other);
+      
+      void setN1(int n);
+      void setN2(int n);
+      
+      int n1() const;
+      int n2() const;
+         
    private:
       int   m_N1;
       int   m_N2;

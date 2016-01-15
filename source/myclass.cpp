@@ -48,3 +48,37 @@ MyClass& MyClass::operator=(MyClass&& other) {
          return *this;
        }
        
+void MyClass::setN1(int n)
+{
+   m_N1 = n;
+}
+
+void MyClass::setN2(int n)
+{
+   m_N2 = n;
+}
+
+
+int MyClass::n1() const
+{
+   return m_N1;
+}
+
+
+int MyClass::n2() const
+{
+   return m_N2;
+}
+
+
+
+
+
+
+
+
+
+
+
+ 
+

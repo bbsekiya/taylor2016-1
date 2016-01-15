@@ -17,6 +17,15 @@ MyClassPtr  test2()
    return p;
 }
 
+ConstMyClassPtr test3(int n1, int n2)
+{
+   MyClassPtr p = boost::make_shared<MyClass>(n1, n2);
+   p->setN1(122);
+   return p;
+}
+
+
+
 
 int main()
 {
@@ -28,6 +37,15 @@ int main()
    
    MyClass  m4(std::move(*test2()));
    
+   std::vector<ConstMyClassPtr> v1;
+   
+   std::cout << "\n---------------- vector test -----\n";
+   
+   
+   v1.push_back(test2());
+   
+   ConstMyClassPtr&& p = test3(7,8);
+   v1.push_back(std::move(test3(7,8)));
    
    return 0;
 }
