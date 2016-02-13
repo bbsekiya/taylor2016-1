@@ -1,26 +1,53 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
+
+int func(int n)
+{
+   static int x = 0;
+   return ++x + n;
+}
+
+
+class MyFunc
+{
+   public:
+      MyFunc() {}
+      virtual~MyFunc() {}
+      
+      int func(int n) {
+         static int m = 0;
+        
+         return ++m + n;
+
+      }
+      const static int x = 0;
+      
+};
+
+template <typename T>
+T func2(T n)
+{
+   static T x = 0;
+   return ++x + n;
+}
+
+
+
 
 int main()
 {
-
-   std::vector <int> m {1,10,30,44,70,100,33,99};
+   std::cout << "func(10) = " << func(10) << std::endl;
+   std::cout << "func(10) = " << func(10) << std::endl;
    
-   int   x = 30;
+   MyFunc   m;
+   std::cout << "m.func(10) = " << m.func(10) << std::endl;
+   std::cout << "m.func(10) = " << m.func(10) << std::endl;
+    
+   std::cout << "func2(10) = " << func2(10) << std::endl;
+   std::cout << "func2(10) = " << func2(10) << std::endl;
    
-   auto lt = std::find_if(m.begin(), m.end(),
-                  [x](int val) {return val == x; });
+   auto x = func2(100);
+   std::cout << "x = " << x << std::endl;
    
-   if (lt != m.end()) {
-      std::cout << "x = " << x  << " was found in the list\n";
-   }
-   
-           
-   
+ 
    return 0;
-
-
-
-
-}
+ }
