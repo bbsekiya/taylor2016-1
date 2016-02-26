@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+
+
 void rawStringLeteralsTest()
 {
    std::cout << "c:\temp" << std::endl;
@@ -98,19 +100,66 @@ void variaticTemplateTest()
 
 };
 
+struct myStruct
+{
+   int n;
+};
+
+void castTest() 
+{
+   std::cout << "\n\n ======= castTest() ============\n\n";
+   
+   int* ip1;
+   const int* ip2;
+   
+   ip2 = ip1;
+   
+   boost::shared_ptr<myStruct> pp1;
+   boost::shared_ptr<const myStruct> const_pp1;
+   
+   pp1 = boost::make_shared<myStruct>();
+   pp1->n = 100;
+   
+   // cast the const_pp1 to non-const object
+   const_pp1 = boost::const_pointer_cast<const myStruct>(pp1);
+   
+   std::cout << "pp1->n = " << pp1->n << std::endl;
+   std::cout << "const_pp1->n = " << const_pp1->n << std::endl;  
+   
+   pp1->n = 300;
+   
+   std::cout << "pp1->n = " << pp1->n << std::endl;
+   std::cout << "const_pp1->n = " << const_pp1->n << std::endl;
+   
+   
+#if 0
+   boost::shared_ptr<myStruct> p1;
+   const boost::shared_ptr<myStruct> p2;
+   
+   p1 = boost::static_pointer_cast<myStruct>(p2);
+   
+   p2 = boost::static_pointer_cast<myStruct>(p2);
+   
+  // p2 = boost::const_pointer_cast<myStruct>(p1);
+#endif
+   
+}
+
 
 int main()
 {
+
+
    rawStringLeteralsTest();
    
    explictConverstionOperatorTest();
    
-   delegatingConstructorTest();
-   
+
    uniformInitializationTest();
    
    variaticTemplateTest();
    
+   castTest();
    
    return 0;
  
