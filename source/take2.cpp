@@ -5,29 +5,18 @@
 class Take2
 {
    public:
-      Take2(std::string filePath) {
-      
-      }
-      Take2() {}
-      
-      Take2(std::istringstream in) {
-         std::cout << "---- Take2(std::istringstream in) ---\n";
-         
-         std::string token("");
-         while (std::getline(in, token)) {
-         //while (std::getline(in, token, ',')) {
-           std::cout << "token = " << token << std::endl;
+       Take2(std::istream& in) {
+         std::cout << "---- Take2(std::istream in) ---\n";
+    
+         std::string line("");
+         while (std::getline(in, line)) {
+            std::cout << "line = " << line << std::endl;
          }
-         
-      }
+   
+       }
+       
       
-      friend std::istream& operator>>(std::istream& is, Take2& take) {
-         std::string token("");
-         while (std::getline(is, token, ',')) {
-           std::cout << "token = " << token << std::endl;
-         }
-         
-      }
+      
   
    private:
    
@@ -36,19 +25,24 @@ class Take2
 
 int main()
 {
-   #if 0
-   std::ostringstream   out;
-   out << "This is a test\n";
    
-   std::istringstream in("This is a test\n");
- 
-   Take2  t;
-   in >> t;
    
-   #endif
-   std::ostringstream   out;
-   out << "This is a test\n";
-   Take2    t(out);
+   std::cout << "\n\n ----------------------- Take2 main ------------------\n\n";
 
+   std::ofstream of("data.txt");
+   of << "0,TEST1,100\n";
+      of << "1,TEST2,200\n";
+         of << "2,TEST3,300\n";
+   of.close();
+   
+   // file test
+   std::cout << "\n### (1) File Test ##\n";
+   std::ifstream in("data.txt");
+   Take2   tt1(in);
+  
+    std::cout << "\n### (2) String Ttest ##\n";
+   std::istringstream str("This is a test\nThat is a test2\nThat was a test3\n");
+   Take2   tt2(str);
+    
    return 0;
 }
