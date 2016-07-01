@@ -101,6 +101,7 @@ struct CPUID
 //static  void to_id(struct CPUid *id, uint32_t value)
 static  void to_id(CPUID_t& id, uint32_t value)
 {
+  
     id.Stepping         = value & 0xf;
     id.Model            = (value & (0xf << 4)) >> 4;
     id.FamilyID         = (value & (0xf << 8)) >> 8;
@@ -108,7 +109,22 @@ static  void to_id(CPUID_t& id, uint32_t value)
     id.Reserved1        = (value & (0x3 << 14)) >> 14;
     id.ExtendedModel    = (value & (0xf << 16)) >> 16;
     id.ExtendedFamilyID = (value & (0xff << 20)) >> 20;
-    id.Reserved2        = (value & (0xf << 28)) >> 28;
+    id.Reserved2        = (value & (0xf << 28)) >> 28;;
+}
+
+
+static  void to_id2(CPUID_t& id, uint32_t value)    
+{
+    id.Stepping         = value & 0xf;
+    id.Model            = (value >> 4) & 0xf;
+    id.FamilyID         = (value >> 8) & 0xf;
+    id.Type             = (value >> 12)& 0x3;
+    id.Reserved1        = (value >> 14) & 0x3;
+    id.ExtendedModel    = (value >> 16) & 0xF;
+    id.ExtendedFamilyID = (value >> 20) & 0xFF;
+    id.Reserved2        = (value >> 28) & 0xFF;
+   
+    
 }
 
 //And the opposite
@@ -156,17 +172,48 @@ void func3()
 
 void func4()
 {
-   uint32_t    value = 0x01234567;
+   uint32_t    value = 0xDEADBEEF;
    
    printf("value  = %08x\n", value);
    
-   CPUID_t  c;
+   CPUID_t  id;
    
-   to_id(c, value);
+   to_id(id, value);
    
-   uint32_t value2 = from_id(c);
    
+    printf("id.Stepping         = %04x\n", id.Stepping);
+    printf("id.Model            = %04x\n", id.Model);
+    printf("id.FamilyID         = %04x\n", id.FamilyID);
+    printf("id.Type             = %04x\n", id.Type);
+    printf("id.Reserved1        = %04x\n", id.Reserved1);
+    printf("id.ExtendedModel    = %04x\n", id.ExtendedModel);
+    printf("id.ExtendedFamilyID = %04x\n", id.ExtendedFamilyID);
+    printf("id.Reserved2        = %04x\n", id.Reserved2);
+    
+   uint32_t value2 = from_id(id);
    printf("values2 = %08x\n", value2);  
+   
+   std::cout << "\n\n";
+   
+   
+   to_id2(id, value);
+   
+   
+    printf("id.Stepping         = %04x\n", id.Stepping);
+    printf("id.Model            = %04x\n", id.Model);
+    printf("id.FamilyID         = %04x\n", id.FamilyID);
+    printf("id.Type             = %04x\n", id.Type);
+    printf("id.Reserved1        = %04x\n", id.Reserved1);
+    printf("id.ExtendedModel    = %04x\n", id.ExtendedModel);
+    printf("id.ExtendedFamilyID = %04x\n", id.ExtendedFamilyID);
+    printf("id.Reserved2        = %04x\n", id.Reserved2);  
+    value2 = from_id(id);
+     
+   printf("values2 = %08x\n", value2);  
+   
+   uint32_t x = 0xFFFFFFFF;
+   
+   printf("************ %08x\n", (0xf << 4));
 };
 
    
