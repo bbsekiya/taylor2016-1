@@ -81,39 +81,51 @@ void func2()
 
 
 
-#if 0
-
-You should never rely on how the compiler lays out your structure in memory. There are ways to do what you want with a single assignment, but I will neither recommend nor tell you.
 
 
+//You should never rely on how the compiler lays out your structure in memory. 
 
-static inline void to_id(struct CPUid *id, uint32_t value)
+struct CPUID          
+    {
+          uint32_t   Stepping         : 4;         
+          uint32_t   Model            : 4;        
+          uint32_t   FamilyID         : 4;        
+          uint32_t   Type             : 2;        
+          uint32_t   Reserved1        : 2;         
+          uint32_t   ExtendedModel    : 4;         
+          uint32_t   ExtendedFamilyID : 8;          
+          uint32_t   Reserved2        : 4;          
+    }typedef CPUID_t;
+
+
+//static  void to_id(struct CPUid *id, uint32_t value)
+static  void to_id(CPUID_t& id, uint32_t value)
 {
-    id->Stepping         = value & 0xf;
-    id->Model            = (value & (0xf << 4)) >> 4;
-    id->FamilyID         = (value & (0xf << 8)) >> 8;
-    id->Type             = (value & (0x3 << 12)) >> 12;
-    id->Reserved1        = (value & (0x3 << 14)) >> 14;
-    id->ExtendedModel    = (value & (0xf << 16)) >> 16;
-    id->ExtendedFamilyID = (value & (0xff << 20)) >> 20;
-    id->Reserved2        = (value & (0xf << 28)) >> 28;
+    id.Stepping         = value & 0xf;
+    id.Model            = (value & (0xf << 4)) >> 4;
+    id.FamilyID         = (value & (0xf << 8)) >> 8;
+    id.Type             = (value & (0x3 << 12)) >> 12;
+    id.Reserved1        = (value & (0x3 << 14)) >> 14;
+    id.ExtendedModel    = (value & (0xf << 16)) >> 16;
+    id.ExtendedFamilyID = (value & (0xff << 20)) >> 20;
+    id.Reserved2        = (value & (0xf << 28)) >> 28;
 }
 
-And the opposite
+//And the opposite
 
-static inline uint32_t from_id(struct CPUid *id)
+static  uint32_t from_id(CPUID_t& id)
 {
-    return id->Stepping
-         + ((uint32_t)id->Model << 4)
-         + ((uint32_t)id->FamilyID << 8)
-         + ((uint32_t)id->Type << 12)
-         + ((uint32_t)id->Reserved1 << 14)
-         + ((uint32_t)id->ExtendedModel << 16)
-         + ((uint32_t)id->ExtendedFamilyID << 20)
-         + ((uint32_t)id->Reserved2 << 28);
+    return id.Stepping
+         + ((uint32_t)id.Model << 4)
+         + ((uint32_t)id.FamilyID << 8)
+         + ((uint32_t)id.Type << 12)
+         + ((uint32_t)id.Reserved1 << 14)
+         + ((uint32_t)id.ExtendedModel << 16)
+         + ((uint32_t)id.ExtendedFamilyID << 20)
+         + ((uint32_t)id.Reserved2 << 28);
 }
 
-#endif
+
 
 
 
@@ -142,6 +154,20 @@ void func3()
  
    
 
+void func4()
+{
+   uint32_t    value = 0x01234567;
+   
+   printf("value  = %08x\n", value);
+   
+   CPUID_t  c;
+   
+   to_id(c, value);
+   
+   uint32_t value2 = from_id(c);
+   
+   printf("values2 = %08x\n", value2);  
+};
 
    
 //!!!
@@ -154,7 +180,10 @@ int main()
    std::cout << "sizeof(Data_t) = " << sizeof(Data_t) << std::endl;
    
    
-   func3();
+   //func3();
+   
+   func4();
+   
    
    return 0;
       
