@@ -14,6 +14,30 @@ struct Data {
    
 } typedef Data_t;
 
+void setData(Data_t& d, uint32_t value)
+{
+   d.data = value & 0xFFFF;
+   d.type = (value & (0xF << 16)) >> 16;
+   d.id = (value & (0x3 << 20)) >> 20;
+   d.parity = (value & (0x1 << 23)) >> 23;
+   d.filler = (value & (0xFF << 24)) >> 24;
+}
+
+
+uint32_t data(Data_t& d)
+{
+   return d.data
+         + ((uint32_t)d.type << 16)
+         + ((uint32_t)d.id << 20)
+         + ((uint32_t)d.parity <<  23)
+         + ((uint32_t)d.filler << 24);
+
+}
+
+   
+
+
+
 
 
 struct Data2 {
@@ -229,7 +253,23 @@ int main()
    
    //func3();
    
-   func4();
+   //func4();
+   
+   uint32_t value=0xDEADBEEF;
+   Data_t   d;
+   
+   setData(d, value);
+
+   std::cout << "\n-------------------- setData(d, value) --------------------------\n";
+   printf("d.data     = %08x\n", d.data);
+   printf("d.type     = %08x\n", d.type);
+   printf("d.id       = %08x\n", d.id);
+   printf("d.parity   = %08x\n", d.parity);
+   printf("d.filler   = %08x\n", d.filler);
+   
+   uint32_t  value3 = data(d);
+   
+   printf("value3 = %08x\n", value3);
    
    
    return 0;
