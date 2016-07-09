@@ -34,7 +34,8 @@ uint32_t data(Data_t& d)
 
 }
 
-   
+   //---------------------------------
+   // ABOVE:  you must pass uint32_t, therefore construct uint32_t from 20/24 bit data and pass
 
 
 
