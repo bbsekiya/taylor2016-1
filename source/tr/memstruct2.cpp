@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include <vector>
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
 
 
 struct Data {
@@ -85,6 +87,7 @@ int main()
 
    #endif
    
+   #if 0
    uint32_t dest;
    uint32_t in = 0xDEADBEEF;
    setInput20(dest, in);
@@ -93,6 +96,26 @@ int main()
    setInput24(dest, in);
    printf("dest = %08x\n", dest);
 
+   #endif
+   
+   uint64_t s1 = 0xF007000112345678;
+ 
+   printf("val = x%" PRIx64 "\n", s1);
+   
+   #if 0
+   uint64_t temp;
+   uint32_t upper, lower;
+   upper = (temp & 0xFFFFFFFF00000000) >> 32;
+   lower = temp & 0x00000000FFFFFFFF;
+   #endif
+   
+   uint32_t upper = (s1 & 0xFFFFFFFF00000000) >> 32;
+   uint32_t lower = s1 & 0x00000000FFFFFFFF;
+   printf("upper = %08x\n", upper);
+   
+    printf("lower = %08x\n", lower);
+   
+   //0xaf30 
    return 0;
 }
    
